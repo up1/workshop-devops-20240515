@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Code change') {
+            steps {
+                git branch: 'main', url: 'https://github.com/up1/workshop-devops-20240515.git'
+            }
+        }
+        stage('Download deps/libs') {
+            steps {
+                sh '''cd api-nodejs
+                      npm ci'''
+            }
+        }
+        stage('Dependency check') {
+            steps {
+                sh '''cd api-nodejs
+                      npm audit fix'''
+            }
+        }
+        stage('Scan code sonarqube') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                def remote = [:]
+                remote.name = 'server01'
+                remote.host = '143.198.223.102'
+                remote.user = 'root'
+                remote.password = 'xitgmLwmp12q'
+                remote.allowAnyHosts = true
+
+                sshCommand remote: remote, command: """
+                    pm2 delete somkiat
+                    rm -rf somkiat
+                    git clone https://github.com/up1/workshop-devops-20240515.git somkiat
+                    cd somkiat/api-nodejs
+                    npm ci
+                    export PORT=3002
+                    pm2 start server.js --name somkiat
+                """
+                }
+            }
+        }
+        stage('API test') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('Deploy to QA server') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
