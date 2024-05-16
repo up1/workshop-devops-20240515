@@ -10,7 +10,7 @@ expressOasGenerator.init(app, {});
 
 app.get("/", (req, res) => {
   res.json({
-    message: "Hello World!",
+    message: "Hello World day 2/3",
     hostname: os.hostname(),
     processId: process.pid,
   });
