@@ -2,5 +2,9 @@ services:
   react:
     build: .
     image: react:2.0
+    container_name: react
     ports:
       - 9000:80
+    mem_limit: 100mb
+    volumes:
+      - ./xyz:/data
