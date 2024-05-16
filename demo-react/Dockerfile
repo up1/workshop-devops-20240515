@@ -1,7 +1,9 @@
 FROM node:18-alpine as step1
 WORKDIR /app
-COPY package*.json .
-RUN npm ci
+COPY package.json .
+# Mount with cache of node_modules
+RUN --mount=type=cache,target=/app/npm/cache npm i --cache /app/npm/cache
+# RUN npm i
 COPY . .
 RUN npm run build
 
