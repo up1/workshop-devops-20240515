@@ -1,6 +1,6 @@
 services:
   api:
-    image: demo-api:1.0
+    image: somkiat/demo-api:1.0
     build:
       context: ./api
     ports:
@@ -20,7 +20,7 @@ services:
         condition: service_healthy
 
   db:
-    image: demo-mysql:1.0
+    image: somkiat/demo-mysql:1.0
     build:
       context: ./mysql
     environment:
@@ -28,8 +28,6 @@ services:
       - MYSQL_USER=user01
       - MYSQL_PASSWORD=${DB_PASSWORD:-password01}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
-    ports:
-      - "3306:3306"
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uuser01", "-ppassword01"]
       interval: 5s

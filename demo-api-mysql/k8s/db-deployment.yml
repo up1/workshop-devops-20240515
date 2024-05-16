@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: somkiat/demo-mysql:1.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: hellodb
+        - name: MYSQL_USER
+          value: user01
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-password
+              key: password
+        - name: MYSQL_RANDOM_ROOT_PASSWORD
+          value: "true"
+        readinessProbe:
+          exec:
+            command: ["mysqladmin" ,"ping", "-h", "127.0.0.1", "-uuser01", "-p$(MYSQL_PASSWORD)"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 10
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "500m"
+            memory: "500Mi"
