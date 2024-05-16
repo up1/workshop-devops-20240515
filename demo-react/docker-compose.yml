@@ -1,0 +1,6 @@
+services:
+  react:
+    build: .
+    image: react:2.0
+    ports:
+      - 9000:80
