@@ -35,20 +35,14 @@ $kubectl get deployment
 $kubectl get service
 
 $kubectl get ingress
-NAME          CLASS   HOSTS                ADDRESS        PORTS   AGE
-api-ingress   nginx   api.yourdomain.com   192.168.49.2   80      6m8s
+NAME          CLASS   HOSTS   ADDRESS        PORTS   AGE
+api-ingress   nginx   *       192.168.49.2   80      6m17s
 ```
 
 ### Access to api in minikube
-
-Edit file `/etc/hosts`
-```
-192.168.49.2    api.yourdomain.com
-```
-
 ```
 $minikube ssh
-$curl api.yourdomain.com/v1
+$curl http://192.168.49.2/v1
 ```
 
 ### Access from host to minikube
