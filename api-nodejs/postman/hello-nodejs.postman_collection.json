@@ -20,7 +20,7 @@
 							"",
 							"pm.test(\"Test message\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.message).to.eql('Hello World!');",
+							"    pm.expect(jsonData.message).to.eql('Hello World day 2/3');",
 							"});",
 							"",
 							"pm.test(\"Response schema is valid\", function () {",
