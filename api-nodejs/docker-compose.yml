@@ -1,0 +1,6 @@
+services:
+  api:
+    build: .
+    image: api-node:2.0
+    ports:
+      - 8000:3000
