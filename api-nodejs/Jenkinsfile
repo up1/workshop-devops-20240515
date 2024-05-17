@@ -21,34 +21,19 @@ pipeline {
         }
         stage('Scan code sonarqube') {
             steps {
-                echo 'Hello World'
+                build wait: false, job: 'somkiat_sonar'
             }
         }
         stage('Deploy') {
             steps {
-                script {
-                def remote = [:]
-                remote.name = 'server01'
-                remote.host = '143.198.223.102'
-                remote.user = 'root'
-                remote.password = 'xitgmLwmp12q'
-                remote.allowAnyHosts = true
-
-                sshCommand remote: remote, command: """
-                    pm2 delete somkiat
-                    rm -rf somkiat
-                    git clone https://github.com/up1/workshop-devops-20240515.git somkiat
-                    cd somkiat/api-nodejs
-                    npm ci
-                    export PORT=3002
-                    pm2 start server.js --name somkiat
-                """
-                }
+                build 'somkiat_deploy'
             }
         }
         stage('API test') {
             steps {
-                echo 'Hello World'
+                sh '''cd api-nodejs/postman
+                newman run hello-nodejs.postman_collection.json
+                '''
             }
         }
         stage('Deploy to QA server') {

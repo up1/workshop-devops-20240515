@@ -16,6 +16,14 @@ app.get("/", (req, res) => {
   });
 });
 
+
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+process.on('SIGINT', () => {
+  debug('SIGTERM signal received: closing HTTP server')
+  app.close(() => {
+    debug('HTTP server closed')
+  })
+})

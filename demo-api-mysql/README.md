@@ -47,7 +47,7 @@ $curl http://192.168.49.2/v1
 
 ### Access from host to minikube
 ```
-minikube tunnel
+$minikube tunnel
 ```
 
 Open url=http://localhost/v1 in web browser
